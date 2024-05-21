@@ -1,13 +1,15 @@
-import { Button } from 'primereact/button';
+import {AuthProvider} from './modules/auth/states/auth-context'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Routes from './routes'
+
+const queryClient = new QueryClient();
 
 export default function App() {
-
   return (
-    <>
-      <h1>Hello</h1>
-      <div className="card flex justify-content-center">
-        <Button label="Click Me" icon="pi pi-check" />
-      </div>
-    </>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <Routes />
+      </QueryClientProvider>
+    </AuthProvider>
   )
 }
