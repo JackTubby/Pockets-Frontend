@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../hooks/use-auth'
 import { useEffect } from 'react'
+import { useAppContext } from '../../core/utils/app-provider'
 
 const Logout = () => {
-  const { setToken, setAccountId } = useAuth()
+  const { setToken, setAccountId } = useAppContext()
   const navigate = useNavigate()
 
   useEffect(() => {

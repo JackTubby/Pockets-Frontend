@@ -5,7 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
-import { useAuth } from '../hooks/use-auth';
+import { useAppContext } from '../../core/utils/app-provider';
 import authService from '../services/auth.service';
 
 interface LoginResponse {
@@ -18,7 +18,7 @@ interface LoginResponse {
 }
 
 const Login: React.FC = () => {
-  const { setToken, setAccountId } = useAuth();
+  const { setToken, setAccountId } = useAppContext();
   const navigate = useNavigate();
 
   const usernameRef = useRef<HTMLInputElement>(null);

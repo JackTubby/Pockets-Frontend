@@ -1,15 +1,13 @@
-import createRequest from '../../core/utils/create-request'
 import { AxiosResponse } from 'axios'
+import { axios } from '../../core/utils/app-provider'
 
 interface LoginParams {
   email: string
   password: string
 }
 
-const authRequest = createRequest()
-
 export const login = async (credentials: LoginParams): Promise<AxiosResponse> => {
-  const data = await authRequest({
+  const data = await axios({
     method: 'post',
     url: '/signin',
     data: credentials,
