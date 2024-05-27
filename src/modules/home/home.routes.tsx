@@ -2,7 +2,7 @@ import Home from "./components/home";
 
 const routes = [
   {
-    path: "/login",
+    path: "/",
     isPublic: true,
     element: <Home />,
   },
