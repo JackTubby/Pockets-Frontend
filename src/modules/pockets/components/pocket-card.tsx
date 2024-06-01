@@ -4,7 +4,7 @@ import { ProgressBar } from "primereact/progressbar";
 const PocketCard: React.FC = () => {
   const icon = "🏦";
   return (
-    <Card className="w-[100%] relative pb-4">
+    <Card className="w-[100%] relative pb-4 cursor-pointer hover:shadow-2xl hover:shadow-gray-900">
       <div className="flex justify-between">
         <div>
           <h2>{icon}</h2>
