@@ -2,10 +2,9 @@ import React, { useState, ChangeEvent } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import useSignIn from "../hooks/useSignIn";
-import { Navigate } from "react-router";
 
 const Login: React.FC = () => {
-  const { signIn, isSuccess } = useSignIn();
+  const { signIn } = useSignIn();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -23,10 +22,6 @@ const Login: React.FC = () => {
     e.preventDefault();
     signIn(formData);
   };
-
-  if (isSuccess) {
-    return <Navigate to="/" />;
-  }
 
   return (
     <div className="flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8">
