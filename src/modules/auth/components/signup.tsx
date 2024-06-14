@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
 import useSignup from "../hooks/useSignup";
 
 const SignUp: React.FC = () => {
@@ -22,7 +21,8 @@ const SignUp: React.FC = () => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     signup(formData);
   };
 
@@ -79,12 +79,11 @@ const SignUp: React.FC = () => {
             />
 
             <label htmlFor="password">Password</label>
-            <Password
+            <InputText
+              type="password"
               id="password"
               value={formData.password}
-              feedback={false}
               autoComplete="off"
-              inputClassName="w-full"
               className="w-full"
               onChange={handleChange}
             />

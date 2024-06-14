@@ -32,6 +32,7 @@ const useSignIn = () => {
     },
     onError: (error) => {
       console.error("Error", error);
+      console.error("Error Message: ", (error.response?.data as { message: string })?.message);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["user"] });

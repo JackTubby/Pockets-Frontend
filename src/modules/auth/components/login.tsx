@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
 import useSignIn from "../hooks/useSignIn";
 import { Navigate } from "react-router";
 
@@ -52,12 +51,14 @@ const Login: React.FC = () => {
 
           <div className="flex flex-col gap-2">
             <label htmlFor="password">Password</label>
-            <Password
-              onChange={handleChange}
-              value={formData.password}
-              feedback={false}
-              inputClassName="w-full"
+            <InputText
+              id="password"
+              type="password"
               className="w-full"
+              value={formData.password}
+              onChange={handleChange}
+              autoComplete="off"
+              required
             />
           </div>
 
