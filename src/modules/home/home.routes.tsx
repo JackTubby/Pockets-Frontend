@@ -3,7 +3,7 @@ import Home from "./components/home";
 const routes = [
   {
     path: "/",
-    isPublic: true,
+    isPublic: false,
     element: <Home />,
   },
 ];
