@@ -1,87 +1,26 @@
-import React, { useState, useEffect, useRef, FormEvent, ChangeEvent } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import { AxiosError, AxiosResponse } from 'axios';
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
-import { useAuth } from '../hooks/use-auth';
-import authService from '../services/auth.service';
-
-interface LoginResponse {
-  token: string;
-  user: {
-    authorisedAccounts: {
-      id: string;
-    }[];
-  };
-}
+import React, { useState, ChangeEvent } from "react";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import useSignIn from "../hooks/useSignIn";
 
 const Login: React.FC = () => {
-  const { setToken, setAccountId } = useAuth();
-  const navigate = useNavigate();
-
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const errRef = useRef<HTMLDivElement>(null);
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [errMsg, setErrMsg] = useState<string>('');
-  const [enabled, setEnabled] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (usernameRef.current) {
-      usernameRef.current.focus();
-    }
-  }, []);
-
-  const handleUserInput = (e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value);
-  const handlePasswordInput = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
-
-  const {
-    data,
-    error,
-    isFetched,
-    isSuccess,
-  } = useQuery<AxiosResponse<LoginResponse>, AxiosError>({
-    queryKey: ['login', username, password],
-    queryFn: () => authService.login({ username, password }),
-    enabled,
-    retry: 0,
-    gcTime: 0,
+  const { signIn } = useSignIn();
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
   });
 
-  useEffect(() => {
-    if (isSuccess && isFetched && data) {
-      const {
-        token,
-        user: { authorisedAccounts },
-      } = data.data;
-      setToken(token);
-      setAccountId(authorisedAccounts[0].id);
-      setUsername('');
-      setPassword('');
-      navigate('/');
-    } else if (error?.response?.status === 401) {
-      setErrMsg('The username or password is incorrect');
-    } else if (error) {
-      setErrMsg('Login Failed - an error occurred');
-    }
-  }, [isSuccess, isFetched, data, error]);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setEnabled(true);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.id, e.target.value);
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
   };
 
-  const getErrorMessage = () => {
-    if (errMsg) {
-      return (
-        <div className="mb-8 text-center text-red-500" ref={errRef}>
-          {errMsg}
-        </div>
-      );
-    }
-    return null;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    signIn(formData);
   };
 
   return (
@@ -91,7 +30,6 @@ const Login: React.FC = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        {getErrorMessage()}
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
             <label htmlFor="username">Username</label>
@@ -99,24 +37,23 @@ const Login: React.FC = () => {
               type="text"
               id="username"
               className="w-full"
-              ref={usernameRef}
-              value={username}
-              onChange={handleUserInput}
+              value={formData.username}
+              onChange={handleChange}
               autoComplete="off"
               required
-              aria-invalid={!!errMsg}
             />
           </div>
 
           <div className="flex flex-col gap-2">
             <label htmlFor="password">Password</label>
-            <Password
-              onChange={handlePasswordInput}
-              value={password}
-              feedback={false}
-              inputClassName="w-full"
+            <InputText
+              id="password"
+              type="password"
               className="w-full"
-              aria-invalid={!!errMsg}
+              value={formData.password}
+              onChange={handleChange}
+              autoComplete="off"
+              required
             />
           </div>
 

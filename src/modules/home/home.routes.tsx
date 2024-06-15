@@ -2,8 +2,8 @@ import Home from "./components/home";
 
 const routes = [
   {
-    path: "/login",
-    isPublic: true,
+    path: "/",
+    isPublic: false,
     element: <Home />,
   },
 ];
