@@ -1,25 +1,32 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { ProtectedRoute } from './modules/core/utils/protected-route'
-import authRoutes from './modules/auth/auth.routes'
-import homeRoutes from './modules/home/home.routes'
-import accountsRoutes from './modules/accounts/utils/accounts.routes'
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { ProtectedRoute } from "./modules/core/utils/protected-route";
+import authRoutes from "./modules/auth/auth.routes";
+import homeRoutes from "./modules/home/home.routes";
+import accountsRoutes from "./modules/accounts/utils/accounts.routes";
 
 const Routes = () => {
-  const routes = [...authRoutes, ...homeRoutes, ...accountsRoutes]
+  const routes = [...authRoutes, ...homeRoutes, ...accountsRoutes];
 
-  const publicRoutes = routes.filter((route) => route.isPublic)
-  const privateRoutes = routes.filter((route) => !route.isPublic)
+  const publicRoutes = routes.filter((route) => route.isPublic);
+  const privateRoutes = routes.filter((route) => !route.isPublic);
 
-  const router = createBrowserRouter([
-    ...publicRoutes,
-    {
-      path: '/',
-      element: <ProtectedRoute />,
-      children: privateRoutes,
-    },
-  ])
+  let routesPaths = [];
+  if (import.meta.env.MODE === "development") {
+    routesPaths = [...publicRoutes, ...privateRoutes];
+  } else {
+    routesPaths = [
+      ...publicRoutes,
+      {
+        path: "/",
+        element: <ProtectedRoute />,
+        children: privateRoutes,
+      },
+    ];
+  }
 
-  return <RouterProvider router={router} />
-}
+  const router = createBrowserRouter(routesPaths);
 
-export default Routes
+  return <RouterProvider router={router} />;
+};
+
+export default Routes;
