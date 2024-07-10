@@ -1,5 +1,6 @@
 import { Menubar } from "primereact/menubar";
 import { useNavigate } from "react-router";
+import ThemeSwitcher from "./theme-switcher";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -12,12 +13,12 @@ const Navbar = () => {
   ];
 
   const end = (
-    <button
-      className="p-button p-component p-button-icon-only"
-      onClick={() => navigate("/logout")}
-    >
-      <span className="p-button-icon p-c pi pi-sign-out"></span>
-    </button>
+    <div className="flex gap-x-6">
+      <ThemeSwitcher />
+      <button className="p-button p-component p-button-icon-only" onClick={() => navigate("/logout")}>
+        <span className="p-button-icon p-c pi pi-sign-out"></span>
+      </button>
+    </div>
   );
 
   return <Menubar model={items} end={end} />;
