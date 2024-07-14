@@ -8,7 +8,7 @@ export const ThemeProvider = ({ children }) => {
   const switchTheme = (newTheme) => {
     const themeLink = document.getElementById('theme-link');
     if (themeLink) {
-      const newHref = `${window.location.origin}/public/${newTheme}/theme.css`;
+      const newHref = `${window.location.origin}/${newTheme}/theme.css`;
       themeLink.setAttribute('href', newHref);
       setTheme(newTheme);
       console.log('Theme changed to:', newTheme);
