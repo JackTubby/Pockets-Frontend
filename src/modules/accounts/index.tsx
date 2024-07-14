@@ -25,7 +25,7 @@ const Index = () => {
       {/* BANK ACCOUNTS */}
       <div className="overflow-x-auto flex gap-x-6">
         {accounts?.map((account) => (
-          <Card key={account.id} className="min-w-[420px] md:w-[30rem] flex flex-col my-6 hover:cursor-pointer hover:">
+          <Card key={account.id} className="min-w-[420px] md:w-[30rem] flex flex-col my-6 hover:cursor-pointer hover:shadow-lg hover:bg-highlight">
             <div className="flex gap-x-2 h-full">
               <div className="w-[1rem] bg-red-500"></div>
               <div className="flex flex-col justify-between h-full gap-y-2 p-4">
