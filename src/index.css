@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+html,
+body {
   font-size: 14px;
+  min-height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
 }
