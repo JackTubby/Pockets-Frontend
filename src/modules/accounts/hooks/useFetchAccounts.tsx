@@ -19,14 +19,12 @@ const useFetchAccounts = () => {
       return response.data;
     },
     onMutate: () => {
-      console.log("Fetching bank accounts...");
     },
     onError: (error) => {
       console.error("Error fetching bank accounts: ", error?.response?.data?.message || error.message);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      console.log("Fetched bank accounts: ", data);
     },
   });
 
