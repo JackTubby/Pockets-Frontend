@@ -16,7 +16,16 @@ const FormInput: React.FC<FormInputProps> = memo(({ name, label, type = "text" }
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <InputText className="w-full"  placeholder={label} {...field} type={type} aria-label={label} />}
+        render={({ field }) => (
+          <InputText
+            className="w-full"
+            placeholder={label}
+            {...field}
+            type={type}
+            aria-label={label}
+            value={field.value ?? ""}
+          />
+        )}
       />
     </div>
   );

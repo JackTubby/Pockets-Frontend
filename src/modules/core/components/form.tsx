@@ -1,5 +1,4 @@
-// components/ReusableForm.tsx
-import React, { useCallback } from "react";
+import React from "react";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -14,30 +13,46 @@ interface InputConfig {
 }
 
 interface ReusableFormProps {
-  initialValues: Record<string, unknown>;
+  initialValues?: Record<string, unknown>;
   onSubmit: SubmitHandler<Record<string, unknown>>;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   validationSchema: yup.ObjectSchema;
   inputConfigs: InputConfig[];
 }
 
-const ReusableForm: React.FC<ReusableFormProps> = ({ initialValues, onSubmit, validationSchema, inputConfigs }) => {
+const ReusableForm: React.FC<ReusableFormProps> = ({
+  initialValues = {},
+  onSubmit,
+  validationSchema,
+  inputConfigs,
+}) => {
   const methods = useForm<Record<string, unknown>>({
     defaultValues: initialValues,
     resolver: yupResolver(validationSchema),
   });
 
-  const handleSubmit = useCallback(methods.handleSubmit(onSubmit), [methods, onSubmit]);
+  // Adding debug logs
+  console.log("ReusableForm initialized with values:", initialValues);
+
+  const handleFormSubmit = (data: Record<string, unknown>) => {
+    console.log("Form submitted with data:", data);
+    onSubmit(data);
+  };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
+      <form onSubmit={methods.handleSubmit(handleFormSubmit)} className="flex flex-col gap-y-4">
         {inputConfigs.map((config) => (
           <FormInput key={config.name} name={config.name} label={config.label} type={config.type} />
         ))}
-        {/* TODO: Replace badge with amount of field errors */}
-        <Button type="submit" label="Submit" icon="pi pi-pencil" iconPos="left" raised badge="" badgeClassName="p-badge-danger" />
+        <Button
+          type="submit"
+          label="Submit"
+          icon="pi pi-pencil"
+          iconPos="left"
+          raised
+          badge=""
+          badgeClassName="p-badge-danger"
+        />
       </form>
     </FormProvider>
   );

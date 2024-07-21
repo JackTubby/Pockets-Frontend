@@ -1,14 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useFetchAccounts from "./hooks/useFetchAccounts";
 import Navbar from "../core/components/navbar";
 import { Card } from "primereact/card";
 import AccountCard from "./components/account-card-two";
 import { SpeedDial } from "primereact/speeddial";
-import { Tooltip } from "primereact/tooltip";
 import { MenuItem } from "primereact/menuitem";
+import { Dialog } from "primereact/dialog";
+import ReusableForm from "../core/components/form";
+import { createInputConfigs, createSchema } from "../core/utils/validation-schema";
 
 const Index = () => {
   const { fetchAccounts, data: accounts, isLoading, isError, error } = useFetchAccounts();
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     fetchAccounts();
@@ -27,11 +30,10 @@ const Index = () => {
       label: "Create",
       icon: "pi pi-plus",
       command: () => {
-        console.log("Create");
+        setVisible(true);
       },
     },
     {
-      // Make accounts selectable & then confirm deletion
       label: "Delete",
       icon: "pi pi-trash",
       command: () => {
@@ -39,6 +41,10 @@ const Index = () => {
       },
     },
   ];
+
+  const handleCreate = (data: unknown) => {
+    console.log("Form data submitted:", data); // Debug log
+  };
 
   return (
     <>
@@ -61,6 +67,19 @@ const Index = () => {
         showIcon="pi pi-bars"
         hideIcon="pi pi-times"
       />
+
+      {/* CREATE ACCOUNT DIALOG */}
+      <Dialog
+        header="Create Account"
+        style={{ width: "50vw" }}
+        visible={visible}
+        onHide={() => {
+          if (!visible) return;
+          setVisible(false);
+        }}
+      >
+        <ReusableForm onSubmit={handleCreate} validationSchema={createSchema} inputConfigs={createInputConfigs} />
+      </Dialog>
     </>
   );
 };

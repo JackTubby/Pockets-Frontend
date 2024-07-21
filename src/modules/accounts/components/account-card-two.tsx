@@ -21,10 +21,6 @@ const AccountCards = (account: Account) => {
     setVisible(true);
   };
 
-  const handleCreate = (data: unknown) => {
-    console.log("Create:", data);
-  };
-
   const handleUpdate = (data: unknown) => {
     console.log("Update:", data);
   };

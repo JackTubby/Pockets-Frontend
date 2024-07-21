@@ -9,15 +9,19 @@ interface InputConfig {
 }
 
 export const createInputConfigs: InputConfig[] = [
+  { name: "bankName", label: "Bank Name" },
+  { name: "balance", label: "Balance" },
+  { name: "digits", label: "digits" },
   { name: "name", label: "Name" },
-  { name: "email", label: "Email", type: "email" },
-  { name: "password", label: "Password", type: "password" },
+  { name: "color", label: "Color" },
 ];
 
 export const updateInputConfigs: InputConfig[] = [
+  { name: "bankName", label: "Bank Name" },
+  { name: "balance", label: "Balance" },
+  { name: "digits", label: "digits" },
   { name: "name", label: "Name" },
-  { name: "email", label: "Email", type: "email" },
-  { name: "password", label: "Password", type: "password" },
+  { name: "color", label: "Color" },
 ];
 
 export const createSchema = yup.object().shape({
