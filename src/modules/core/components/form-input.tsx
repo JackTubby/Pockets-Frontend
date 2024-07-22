@@ -1,34 +1,64 @@
-import React, { memo } from "react";
-import { useFormContext, Controller } from "react-hook-form";
+import { useEffect, useState, forwardRef } from "react";
 import { InputText } from "primereact/inputtext";
+import { KeyFilterType } from "primereact/keyfilter"; // Import KeyFilterType
 
-interface FormInputProps {
+interface ReusableInputProps {
   name: string;
+  value?: string | number | boolean;
+  type: string;
+  size?: string;
   label: string;
-  type?: string;
+  invalid?: boolean;
+  disabled?: boolean;
+  keyfilter?: KeyFilterType; // Use KeyFilterType for keyfilter prop
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void; // Added onBlur to prop types
 }
 
-const FormInput: React.FC<FormInputProps> = memo(({ name, label, type = "text" }) => {
-  const { control } = useFormContext();
+const ReusableInput = forwardRef<HTMLInputElement, ReusableInputProps>(({
+  name, value: initialValue, type, size, label, invalid, disabled, keyfilter, onChange, onBlur
+}, ref) => {
+  const [value, setValue] = useState<string | number | boolean>(initialValue || "");
+
+  useEffect(() => {
+    setValue(initialValue || "");
+  }, [initialValue]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    if (onChange) {
+      onChange(e);
+    }
+  };
 
   return (
-    <div>
-      <Controller
-        name={name}
-        control={control}
-        render={({ field }) => (
-          <InputText
-            className="w-full"
-            placeholder={label}
-            {...field}
-            type={type}
-            aria-label={label}
-            value={field.value ?? ""}
-          />
-        )}
-      />
-    </div>
+    <InputText
+      ref={ref}
+      name={name}
+      value={value}
+      type={type}
+      onChange={handleChange}
+      onBlur={onBlur}
+      placeholder={size}
+      aria-label={label}
+      className={invalid ? 'p-invalid' : ''}
+      disabled={disabled}
+      keyfilter={keyfilter}
+    />
   );
 });
 
-export default FormInput;
+export default ReusableInput;
+
+
+
+// TYPE OF KEYFILTERS AVAILABLE IN PRIMEREACT INPUTTEXT COMPONENT (https://primefaces.org/primereact/showcase/#/inputtext)
+// <InputText keyfilter="int" />
+// <InputText keyfilter="pint" />
+// <InputText keyfilter="num" />
+// <InputText keyfilter="pnum" />
+// <InputText keyfilter="money" />
+// <InputText keyfilter="hex" />
+// <InputText keyfilter="alpha" />
+// <InputText keyfilter="alphanum" />
+// <InputText keyfilter="email" />
