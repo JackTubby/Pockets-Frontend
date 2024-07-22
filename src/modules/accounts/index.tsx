@@ -7,7 +7,6 @@ import { SpeedDial } from "primereact/speeddial";
 import { MenuItem } from "primereact/menuitem";
 import { Dialog } from "primereact/dialog";
 import ReusableForm from "../core/components/form";
-import { createInputConfigs, createSchema } from "../core/utils/validation-schema";
 
 const Index = () => {
   const { fetchAccounts, data: accounts, isLoading, isError, error } = useFetchAccounts();
@@ -42,10 +41,6 @@ const Index = () => {
     },
   ];
 
-  const handleCreate = (data: unknown) => {
-    console.log("Form data submitted:", data); // Debug log
-  };
-
   return (
     <>
       <Navbar />
@@ -73,12 +68,9 @@ const Index = () => {
         header="Create Account"
         style={{ width: "50vw" }}
         visible={visible}
-        onHide={() => {
-          if (!visible) return;
-          setVisible(false);
-        }}
+        onHide={() => setVisible(false)}
       >
-        <ReusableForm onSubmit={handleCreate} validationSchema={createSchema} inputConfigs={createInputConfigs} />
+      <ReusableForm />
       </Dialog>
     </>
   );

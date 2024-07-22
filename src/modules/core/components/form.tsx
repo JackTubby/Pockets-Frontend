@@ -1,60 +1,61 @@
-import React from "react";
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import FormInput from "./form-input";
-import { Button } from "primereact/button";
+import { useForm, Controller } from "react-hook-form";
+import ReusableInput from "./form-input";
 
-interface InputConfig {
+type Inputs = {
+  [key: string]: string | number | boolean;
+};
+
+type Field = {
   name: string;
   label: string;
-  type?: string;
-  validation?: unknown;
-}
+  type: string;
+};
 
 interface ReusableFormProps {
-  initialValues?: Record<string, unknown>;
-  onSubmit: SubmitHandler<Record<string, unknown>>;
-  validationSchema: yup.ObjectSchema;
-  inputConfigs: InputConfig[];
+  inputConfig: Field[];
+  data?: any;
 }
 
-const ReusableForm: React.FC<ReusableFormProps> = ({
-  initialValues = {},
-  onSubmit,
-  validationSchema,
-  inputConfigs,
-}) => {
-  const methods = useForm<Record<string, unknown>>({
-    defaultValues: initialValues,
-    resolver: yupResolver(validationSchema),
-  });
+const ReusableForm = ({ inputConfig, data = {} }: ReusableFormProps) => {
+  const { control, handleSubmit, watch } = useForm<Inputs>();
 
-  // Adding debug logs
-  console.log("ReusableForm initialized with values:", initialValues);
+  const onSubmit = (formData: Inputs) => {
+    console.log(formData);
+  };
 
-  const handleFormSubmit = (data: Record<string, unknown>) => {
-    console.log("Form submitted with data:", data);
-    onSubmit(data);
+  console.log(watch("name"));
+
+  const renderFields = () => {
+    return inputConfig.map((field: Field) => {
+      if (field.type === "inputText") {
+        return (
+          <Controller
+            key={field.name}
+            name={field.name}
+            control={control}
+            defaultValue={data[field.name] || ""}
+            render={({ field: controllerField, fieldState }) => (
+              <ReusableInput
+                {...controllerField}
+                type="text"
+                label={field.label}
+                invalid={!!fieldState.error}
+              />
+            )}
+          />
+        );
+      }
+      return null;
+    });
   };
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(handleFormSubmit)} className="flex flex-col gap-y-4">
-        {inputConfigs.map((config) => (
-          <FormInput key={config.name} name={config.name} label={config.label} type={config.type} />
-        ))}
-        <Button
-          type="submit"
-          label="Submit"
-          icon="pi pi-pencil"
-          iconPos="left"
-          raised
-          badge=""
-          badgeClassName="p-badge-danger"
-        />
+    <div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {renderFields()}
+        <button type="submit">Submit</button>
       </form>
-    </FormProvider>
+    </div>
   );
 };
 

@@ -18,16 +18,16 @@ interface ReusableInputProps {
 const ReusableInput = forwardRef<HTMLInputElement, ReusableInputProps>(({
   name, value: initialValue, type, size, label, invalid, disabled, keyfilter, onChange, onBlur
 }, ref) => {
-  const [value, setValue] = useState<string | number | boolean>(initialValue || "");
+  const [value, setValue] = useState<string>(initialValue ? String(initialValue) : "");
 
   useEffect(() => {
-    setValue(initialValue || "");
+    setValue(initialValue ? String(initialValue) : "");
   }, [initialValue]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     if (onChange) {
-      onChange(e);
+      onChange(e); // Call the onChange passed by Controller
     }
   };
 
@@ -38,19 +38,17 @@ const ReusableInput = forwardRef<HTMLInputElement, ReusableInputProps>(({
       value={value}
       type={type}
       onChange={handleChange}
-      onBlur={onBlur}
+      onBlur={onBlur} // Call the onBlur passed by Controller
       placeholder={size}
       aria-label={label}
       className={invalid ? 'p-invalid' : ''}
       disabled={disabled}
-      keyfilter={keyfilter}
+      keyfilter={keyfilter} // Apply keyfilter prop
     />
   );
 });
 
 export default ReusableInput;
-
-
 
 // TYPE OF KEYFILTERS AVAILABLE IN PRIMEREACT INPUTTEXT COMPONENT (https://primefaces.org/primereact/showcase/#/inputtext)
 // <InputText keyfilter="int" />

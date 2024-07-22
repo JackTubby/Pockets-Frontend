@@ -9,11 +9,11 @@ interface InputConfig {
 }
 
 export const createInputConfigs: InputConfig[] = [
-  { name: "bankName", label: "Bank Name" },
-  { name: "balance", label: "Balance" },
-  { name: "digits", label: "digits" },
-  { name: "name", label: "Name" },
-  { name: "color", label: "Color" },
+  { name: "bankName", label: "Bank Name", type: "inputText" },
+  { name: "balance", label: "Balance", type: "inputText" },
+  { name: "digits", label: "digits", type: "inputText" },
+  { name: "name", label: "Name", type: "inputText" },
+  { name: "color", label: "Color", type: "inputText" },
 ];
 
 export const updateInputConfigs: InputConfig[] = [
