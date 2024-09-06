@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Card } from "primereact/card";
 import { Dialog } from "primereact/dialog";
-import ReusableForm from "../../core/components/form";
 import { createInputConfigs, updateInputConfigs, createSchema, updateSchema } from "../../core/utils/validation-schema";
 
 interface Account {
@@ -37,12 +36,6 @@ const AccountCards = (account: Account) => {
         }}
       >
         <h1>{account.data.name}</h1>
-        <ReusableForm
-          initialValues={{ name: "John Doe", email: "john@example.com", password: "" }}
-          onSubmit={handleUpdate}
-          validationSchema={updateSchema}
-          inputConfigs={updateInputConfigs}
-        />
       </Dialog>
       {/* ACCOUNT INDIVIDUAL CARD */}
       <Card

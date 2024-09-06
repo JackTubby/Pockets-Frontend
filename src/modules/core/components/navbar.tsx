@@ -9,7 +9,13 @@ const Navbar = () => {
     {
       label: "Home",
       icon: "pi pi-home",
+      command: () => navigate("/"),
     },
+    {
+      label: "Accounts",
+      icon: "pi pi-user",
+      command: () => navigate("/accounts"),
+    }
   ];
 
   const end = (

@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import useFetchAccounts from "./hooks/useFetchAccounts";
 import Navbar from "../core/components/navbar";
-import { Card } from "primereact/card";
 import AccountCard from "./components/account-card-two";
 import { SpeedDial } from "primereact/speeddial";
 import { MenuItem } from "primereact/menuitem";
 import { Dialog } from "primereact/dialog";
-import ReusableForm from "../core/components/form";
 
 const Index = () => {
   const { fetchAccounts, data: accounts, isLoading, isError, error } = useFetchAccounts();
@@ -47,12 +45,15 @@ const Index = () => {
       <br />
       {/* BANK ACCOUNTS */}
       <div className="overflow-x-auto flex gap-x-6">
-        {accounts?.map((account) => (
-          <AccountCard key={account.id} data={account} />
-        ))}
+        {accounts?.length === 0 ? (
+          <div className="text-center text-gray-500 text-xl">No accounts found</div>
+        ) : (
+          accounts?.map((account) => <AccountCard key={account.id} data={account} />)
+        )}
       </div>
       {/* SUMMARY */}
-      <Card title="Summary"></Card>
+      {/* This will eventually be a summary of the accounts */}
+      {/* <Card title="Summary"></Card> */}
       <SpeedDial
         model={menuItems}
         radius={60}
@@ -64,13 +65,7 @@ const Index = () => {
       />
 
       {/* CREATE ACCOUNT DIALOG */}
-      <Dialog
-        header="Create Account"
-        style={{ width: "50vw" }}
-        visible={visible}
-        onHide={() => setVisible(false)}
-      >
-      <ReusableForm />
+      <Dialog header="Create Account" style={{ width: "50vw" }} visible={visible} onHide={() => setVisible(false)}>
       </Dialog>
     </>
   );
