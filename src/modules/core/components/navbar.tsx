@@ -1,9 +1,11 @@
 import { Menubar } from "primereact/menubar";
 import { useNavigate } from "react-router";
-import ThemeSwitcher from "./theme-switcher";
+import { useTheme } from "../utils/theme-context";
+import { ToggleButton } from "primereact/togglebutton";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const items = [
     {
@@ -15,15 +17,31 @@ const Navbar = () => {
       label: "Accounts",
       icon: "pi pi-user",
       command: () => navigate("/accounts"),
-    }
+    },
+  ];
+
+  const handleThemeChange = (e: SelectButtonChangeEvent) => {
+    toggleTheme();
+  };
+  const justifyOptions: JustifyOption[] = [
+    { icon: "pi pi-sun", value: "light" },
+    { icon: "pi pi-moon", value: "dark" },
   ];
 
   const end = (
     <div className="flex gap-x-6">
-      <ThemeSwitcher />
       <button className="p-button p-component p-button-icon-only" onClick={() => navigate("/logout")}>
         <span className="p-button-icon p-c pi pi-sign-out"></span>
       </button>
+      <ToggleButton
+        onLabel=""
+        offLabel=""
+        onIcon="pi pi-sun"
+        offIcon="pi pi-moon"
+        checked={theme === "light" ? true : false}
+        onChange={handleThemeChange}
+        style={{ fontSize: "10px" }}
+      />
     </div>
   );
 
