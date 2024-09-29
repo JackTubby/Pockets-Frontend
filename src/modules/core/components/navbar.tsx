@@ -18,6 +18,11 @@ const Navbar = () => {
       icon: "pi pi-user",
       command: () => navigate("/accounts"),
     },
+    {
+      label: "Pockets",
+      icon: "pi pi-user",
+      command: () => navigate("/pockets")
+    }
   ];
 
   const handleThemeChange = (e: SelectButtonChangeEvent) => {

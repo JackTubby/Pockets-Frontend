@@ -3,9 +3,10 @@ import { ProtectedRoute } from "./modules/core/utils/protected-route";
 import authRoutes from "./modules/auth/auth.routes";
 import homeRoutes from "./modules/home/home.routes";
 import accountsRoutes from "./modules/accounts/utils/accounts.routes";
+import pocketsRoutes from "./modules/pockets/utils/pocket.routes"
 
 const Routes = () => {
-  const routes = [...authRoutes, ...homeRoutes, ...accountsRoutes];
+  const routes = [...authRoutes, ...homeRoutes, ...accountsRoutes, ...pocketsRoutes];
 
   const publicRoutes = routes.filter((route) => route.isPublic);
   const privateRoutes = routes.filter((route) => !route.isPublic);
