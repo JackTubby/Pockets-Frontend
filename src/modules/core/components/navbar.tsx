@@ -25,13 +25,9 @@ const Navbar = () => {
     }
   ];
 
-  const handleThemeChange = (e: SelectButtonChangeEvent) => {
+  const handleThemeChange = () => {
     toggleTheme();
   };
-  const justifyOptions: JustifyOption[] = [
-    { icon: "pi pi-sun", value: "light" },
-    { icon: "pi pi-moon", value: "dark" },
-  ];
 
   const end = (
     <div className="flex gap-x-6">
