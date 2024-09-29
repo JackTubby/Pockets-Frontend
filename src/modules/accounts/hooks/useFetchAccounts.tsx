@@ -13,26 +13,27 @@ const useFetchAccounts = () => {
   const { api } = useAppContext();
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<BankAccount[], AxiosError, void>({
+  const mutation = useMutation<BankAccount, AxiosError, void>({
     mutationFn: async () => {
-      const response = await api.get<BankAccount[]>("/bankaccount");
+      const response = await api.get<BankAccount>("/bankaccount");
+      console.log("Bank Accounts: ", response.data);
       return response.data;
     },
-    onMutate: () => {
-    },
+    onMutate: () => {},
     onError: (error) => {
-      console.error("Error fetching bank accounts: ", error?.response?.data?.message || error.message);
+      console.error("Error", error);
+      console.error("Error Message: ", (error.response?.data as { message: string })?.message);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
 
   const fetchAccounts = useCallback(() => {
-    mutation.mutate();
-  }, [mutation]);
+    mutation.mutate()
+  }, [mutation])
 
-  return { fetchAccounts, ...mutation };
+  return {fetchAccounts, ...mutation}
 };
 
 export default useFetchAccounts;
