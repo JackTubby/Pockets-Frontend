@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card } from "primereact/card";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
@@ -9,6 +9,7 @@ import useEditAccount from "../hooks/useEditAccount";
 interface Account {
   id: string;
   data: {
+    id: string
     bankName: string;
     name: string;
     balance: string;
@@ -34,7 +35,7 @@ const AccountCards = (account: Account) => {
     }));
   };
 
-  const handleBankChange = (e) => {
+  const handleBankChange = (e: { value: { code: string } }) => {
     setFormData((prevData) => ({
       ...prevData,
       bankName: e.value.code,
