@@ -1,6 +1,6 @@
 import Index from "../index";
 import CreateAccount from "../components/create-account";
-import AccountDetails from "../components/account-details";
+// import AccountDetails from "../components/account-details";
 
 const routes = [
   {
@@ -13,11 +13,11 @@ const routes = [
     isPublic: false,
     element: <CreateAccount />,
   },
-  {
-    path: "/accounts/:id",
-    isPublic: false,
-    element: <AccountDetails />,
-  }
+  // {
+  //   path: "/accounts/:id",
+  //   isPublic: false,
+  //   element: <AccountDetails />,
+  // }
 ];
 
 export default routes;

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppContext } from "../../core/utils/app-provider";
 import { AxiosError } from "axios";
 import { useCallback } from "react";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 
 interface CreateAccountData {
   digits: string;
@@ -14,7 +14,7 @@ interface CreateAccountData {
 const useCreateAccount = () => {
   const { api } = useAppContext();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const mutation = useMutation<void, AxiosError, CreateAccountData>({
     mutationFn: async (data: CreateAccountData) => {
@@ -30,7 +30,7 @@ const useCreateAccount = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      navigate("accounts");
+      // navigate("accounts");
     },
   });
 

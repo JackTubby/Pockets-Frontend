@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppContext } from "../../core/utils/app-provider";
 import { AxiosError } from "axios";
 import { useCallback } from "react";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 
 interface EditAccountData {
   id: string;
@@ -15,7 +15,7 @@ interface EditAccountData {
 const useEditAccount = () => {
   const { api } = useAppContext();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const mutation = useMutation<void, AxiosError, EditAccountData>({
     mutationFn: async (data: EditAccountData) => {
@@ -31,7 +31,7 @@ const useEditAccount = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      navigate("accounts");
+      // navigate("accounts");
     },
   });
 
